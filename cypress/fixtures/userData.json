@@ -1,0 +1,13 @@
+
+{
+  "validUser": {
+    "email": "platformadmin@verisq.ai",
+    "password": "@verISq#837bAse!)"
+  },
+
+  "invalidUser": {
+    "email": "wronguser@example.com",
+    "password": "WrongPass"
+  }
+
+}

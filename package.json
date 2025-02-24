@@ -1,0 +1,17 @@
+{
+  "name": "verisq_demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "Login_test": "cypress run --spec \"cypress/e2e/login.cy.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Automation framework using cypress with Mochawesome reporting",
+  "devDependencies": {
+    "cypress": "^14.0.1",
+    "cypress-xpath": "^2.0.1",
+    "mochawesome": "^7.1.3"
+  }
+}
