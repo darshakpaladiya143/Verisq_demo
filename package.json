@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "Login_test": "cypress run --spec \"cypress/e2e/login.cy.js\""
+    "Login_test": "cypress run --spec \"cypress/e2e/login.cy.js\"",
+    "test:record": "cypress run --record --key e93a8348-d2aa-4bfe-9364-5194da2fe12a --spec 'cypress/e2e/login.cy.js'"
   },
   "keywords": [],
   "author": "",

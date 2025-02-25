@@ -5,20 +5,20 @@
     "passes": 1,
     "pending": 0,
     "failures": 1,
-    "start": "2025-02-24T06:46:21.639Z",
-    "end": "2025-02-24T06:46:43.226Z",
-    "duration": 21587,
+    "start": "2025-02-25T05:19:55.632Z",
+    "end": "2025-02-25T05:21:02.752Z",
+    "duration": 67120,
     "testsRegistered": 2,
     "passPercent": 50,
     "pendingPercent": 0,
-    "other": 1,
-    "hasOther": true,
+    "other": 0,
+    "hasOther": false,
     "skipped": 0,
     "hasSkipped": false
   },
   "results": [
     {
-      "uuid": "0b8dff27-3c01-4e62-a5c7-538ddf2ed671",
+      "uuid": "1d28f38e-6d49-4901-82e7-74bfa8d6ac97",
       "title": "",
       "fullFile": "cypress\\e2e\\login.cy.js",
       "file": "cypress\\e2e\\login.cy.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "10b9b51d-b90f-4ae4-8d32-f4bc1fe824dd",
+          "uuid": "38c97591-e261-4290-94dd-f3fce2651e39",
           "title": "Login and Assessment Template Tests",
           "fullFile": "",
           "file": "",
@@ -38,53 +38,53 @@
               "title": "Should navigate to home after login",
               "fullTitle": "Login and Assessment Template Tests Should navigate to home after login",
               "timedOut": null,
-              "duration": 10516,
+              "duration": 15921,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "cy.url().should('include', '/home');",
+              "code": "// Verify that after login, the URL includes '/home'\ncy.url().should('include', '/home');",
               "err": {},
-              "uuid": "bd1f1ed9-3071-4e08-96a9-a0abb68d79d7",
-              "parentUUID": "10b9b51d-b90f-4ae4-8d32-f4bc1fe824dd",
+              "uuid": "d8556016-cf9e-420e-a2d6-81408aa92f26",
+              "parentUUID": "38c97591-e261-4290-94dd-f3fce2651e39",
               "isHook": false,
               "skipped": false
             },
             {
-              "title": "Add Assessment Template",
-              "fullTitle": "Login and Assessment Template Tests Add Assessment Template",
+              "title": "Add Assessment Template with Unique Data",
+              "fullTitle": "Login and Assessment Template Tests Add Assessment Template with Unique Data",
               "timedOut": null,
-              "duration": 205,
+              "duration": 50024,
               "state": "failed",
               "speed": null,
               "pass": false,
               "fail": true,
               "pending": false,
               "context": null,
-              "code": "// Wait for Third-Party Risk Management element to be visible and click it\ncy.xpath(\"//p[contains(@class,'custom-slider-desc')][normalize-space()='Third-Party Risk Management']\").should('be.visible').click();\ncy.wait(5000);\n// Expand the navbar\ncy.get('button.e-control.e-btn.e-lib.btn-toggle').as('toggleBtn').should('be.visible').click();\ncy.wait(4000);\n// Navigate to Assessment Template\ncy.xpath(\"//span[normalize-space()='Assessment Template']\").should('exist').should('be.visible').click();\n// Click on Create Template\ncy.xpath(\"//a[normalize-space()='Create Template']\").click();\n// Handle the modal for template creation\ncy.get('div[class*=\"custom-modal\"]').each($modal => {\n  cy.wrap($modal).within(() => {\n    cy.get('input#TemplateName').should('be.empty').type('Test Template Name');\n    // Select dropdown option for Outcome Type\n    cy.get('input#OutcomeTypeId').parent().click();\n    cy.get('ul[role=\"listbox\"] li').contains('Satisfactory/Non-satisfactory').click({\n      force: true\n    });\n    // Click the Create button\n    cy.get('button.e-primary').contains('Create').click();\n    cy.wait(5000);\n    // Verify template is added\n    cy.get('table', {\n      timeout: 10000\n    }).should('be.visible');\n    cy.get('table tbody tr', {\n      timeout: 10000\n    }).should('have.length.at.least', 1);\n    cy.contains('td', 'Test Template Name', {\n      timeout: 10000\n    }).should('be.visible').parent().within(() => {\n      cy.get('span#template-ToolTip').should('have.text', 'Test Template Name');\n    });\n  });\n});",
+              "code": "// Generate a unique template name using the current timestamp\nconst uniqueTemplateName = `Test Template Name ${Date.now()}`;\n// Ensure we're on the home page after login\ncy.url().should('include', '/home');\n// Step 1: Click on \"Third-Party Risk Management\" element from the homepage\ncy.xpath(\"//p[contains(@class,'custom-slider-desc')][normalize-space()='Third-Party Risk Management']\").should('be.visible').click();\ncy.wait(5000);\n// Step 2: Expand the navbar by clicking on the toggle button\ncy.get('button.e-control.e-btn.e-lib.btn-toggle').as('toggleBtn').should('be.visible').click();\ncy.wait(4000);\n// Step 3: Navigate to the \"Assessment Template\" section via the navbar\ncy.xpath(\"//span[normalize-space()='Manage Template']\").should('exist').should('be.visible').click();\n// Step 4: Click on the \"Create Template\" link to open the template creation modal\ncy.xpath(\"//a[normalize-space()='Create Template']\").click();\n// Step 5: In the modal, handle template creation with dynamic data\ncy.get('div[class*=\"custom-modal\"]').each($modal => {\n  cy.wrap($modal).within(() => {\n    // Verify that the Template Name input is empty, then type the unique template name\n    cy.get('input#TemplateName').should('be.empty').type(uniqueTemplateName);\n    // Open the Outcome Type dropdown and select an option\n    cy.get('input#OutcomeTypeId').parent().click();\n    cy.get('ul[role=\"listbox\"] li').contains('Satisfactory/Non-satisfactory').click({\n      force: true\n    });\n    // Click the \"Create\" button to submit the new template\n    cy.get('button.e-primary').contains('Create').click();\n    cy.wait(5000);\n    // Step 6: Assert that the new template is added successfully\n    cy.get('table tbody tr', {\n      timeout: 20000\n    }).should('have.length.at.least', 1) // Ensure at least one row exists\n    .contains('td', uniqueTemplateName) // Find the row containing the template name\n    .should('be.visible').parent().within(() => {\n      cy.get('span#template-ToolTip').should('have.text', uniqueTemplateName);\n    });\n  });\n});",
               "err": {
-                "message": "CypressError: `cy.click()` failed because it requires a DOM element.\n\nThe subject received was:\n\n  > `undefined`\n\nThe previous command that ran was:\n\n  > `cy.xpath()`\n\nBecause this error occurred during a `after all` hook we are skipping the remaining tests in the current suite: `Login and Assessment Templa...`",
-                "estack": "CypressError: `cy.click()` failed because it requires a DOM element.\n\nThe subject received was:\n\n  > `undefined`\n\nThe previous command that ran was:\n\n  > `cy.xpath()`\n\nBecause this error occurred during a `after all` hook we are skipping the remaining tests in the current suite: `Login and Assessment Templa...`\n    at isElement (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:144774:58)\n    at validateType (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:144623:14)\n    at Object.isType (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:144654:7)\n    at $Cy.pushSubject (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:138325:22)\n    at wrapped (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:137882:19)\nFrom Your Spec Code:\n    at captureUserInvocationStack (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:138885:94)\n    at Assertion.assert (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:138913:9)\n    at Assertion.<anonymous> (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:138855:25)\n    at Assertion.overwritingPropertyGetter (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:78003:37)\n    at Object.proxyGetter [as get] (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:77869:22)\n    at exists (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:142734:26)\n    at elExists (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:142749:10)\n    at ensureExistence (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:142930:22)\n    at onFailFn (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:142959:53)\n    at tryCatcher (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:1777:23)",
+                "message": "AssertionError: Timed out retrying after 20000ms: Expected to find element: `table tbody tr`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 20000ms: Expected to find element: `table tbody tr`, but never found it.\n    at Context.eval (webpack://verisq_demo/./cypress/e2e/login.cy.js:74:13)\n    at withinFn (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:132175:8)\n    at <unknown> (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:132256:16)\n    at __WEBPACK_DEFAULT_EXPORT__ (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:130199:10)\n    at Context.within (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:132242:67)\n    at wrapped (http://clientapp.narola.online:1196/__cypress/runner/cypress_runner.js:137883:19)",
                 "diff": null
               },
-              "uuid": "97c0ac7a-37da-4ab9-b8d1-969ebc215c98",
-              "parentUUID": "10b9b51d-b90f-4ae4-8d32-f4bc1fe824dd",
+              "uuid": "74cd952e-e7b9-4bd4-b7b4-ee91c79f73bf",
+              "parentUUID": "38c97591-e261-4290-94dd-f3fce2651e39",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "bd1f1ed9-3071-4e08-96a9-a0abb68d79d7"
+            "d8556016-cf9e-420e-a2d6-81408aa92f26"
           ],
           "failures": [
-            "97c0ac7a-37da-4ab9-b8d1-969ebc215c98"
+            "74cd952e-e7b9-4bd4-b7b4-ee91c79f73bf"
           ],
           "pending": [],
           "skipped": [],
-          "duration": 10721,
+          "duration": 65945,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
