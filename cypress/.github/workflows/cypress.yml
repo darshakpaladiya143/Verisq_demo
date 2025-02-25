@@ -9,7 +9,8 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-
+    env:
+      CYPRESS_RECORD_KEY: e93a8348-d2aa-4bfe-9364-5194da2fe12a
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -23,4 +24,4 @@ jobs:
         run: npm ci
 
       - name: Run Cypress Tests
-        run: npx cypress run --record --key ${{ secrets.CYPRESS_RECORD_KEY }}
+        run: npx cypress run --record --key $CYPRESS_RECORD_KEY
